@@ -12,7 +12,8 @@ public class ServerThread extends Thread {
     private DatagramSocket socket;
     private InetAddress address;
     private int port;
-	private int paddlePoisition = 0;
+	private int paddlePoisitionX = 0;
+	private int paddlePoisitionY = 0;
     private boolean deletable;
     private Screen screen;
 
@@ -31,9 +32,13 @@ public class ServerThread extends Thread {
                 byte[] bytes = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
                 socket.receive(packet);
-                String paddlePositionLine = new String(packet.getData(), 0, packet.getLength());
-                paddlePoisition=Integer.parseInt(paddlePositionLine);
-                System.out.println(paddlePoisition);
+                String paddlePositionXY = new String(packet.getData(), 0, packet.getLength());
+                String paddlePositionSplitted[] = paddlePositionXY.split(" ");
+                paddlePoisitionX=Integer.parseInt(paddlePositionSplitted[0]);
+                paddlePoisitionY=Integer.parseInt(paddlePositionSplitted[1]);
+                System.out.println(paddlePoisitionX);
+                System.out.println(paddlePoisitionY);
+
                 wait(10);
             } catch (EOFException e) {
                 e.printStackTrace();
@@ -46,8 +51,12 @@ public class ServerThread extends Thread {
         }
     }
     
-    public int getPaddlePoisition() {
-		return paddlePoisition;
+    public int getPaddlePoisitionX() {
+		return paddlePoisitionX;
+	}
+    
+    public int getPaddlePoisitionY() {
+		return paddlePoisitionY;
 	}
 
 }

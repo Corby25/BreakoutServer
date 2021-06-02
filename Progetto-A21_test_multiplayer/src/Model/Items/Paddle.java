@@ -19,9 +19,6 @@ public class Paddle extends ScreenItem {
     	switchConstant = 1;
     }
     
-    public void onlinePosition(int OnlinePaddlePosition) {
-    	position[0] =  OnlinePaddlePosition;
-    }
     
     // richiamato da update, verifica che non si vada fuori dai bordi dx e sx
     public void move() {

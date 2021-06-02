@@ -55,7 +55,7 @@ public class Screen extends Canvas implements Runnable{
 	//private List<SpecialBrick> objSpecialBricks;
 	private ScreenItem objSfondo;
 	private ImagesLoader loader;
-	private Paddle objPaddle;
+	private List<Paddle> objPaddles;
 	private ArrayList<Integer> paddles;
 	Clip win,hit;
 	boolean isMusicOn;
@@ -64,52 +64,31 @@ public class Screen extends Canvas implements Runnable{
 	private BreakoutGame game;
 	private ScoreAdvisor score;
 	private Levels levels;
-	private List<Player> players;
+	private ArrayList<Player> players;
 	double fastStartTime = 0;
-	double flipStartTime = 0;
 	double switchStart = 0;
 	int i = 0;
 	private LifeAdvisor lifePlayer;
+	double flipStartTime = 0;
+
 	private Server server;
+	private ArrayList<Integer> paddlesPositionsY;
 
 	
 	public Screen(BreakoutGame game) {
 		this.game = game;
 		objBricks = new ArrayList<Brick>();
+		objPaddles = new ArrayList<Paddle>();
+
 		//objSpecialBricks = new ArrayList<SpecialBrick>();
 		uploadImages();
 	}
 	
 	
-	// ciclo di gioco
-	@Override
-	public void run() {
-		
-		double previous = System.nanoTime(); 
-		double delta = 0.0;
-		double fps = 100.0;
-		double ns = 1e9/fps; // numero di nano sec per fps
-		gameStatus = true;
-		
-		//switchare off/on
-		//if (mainMusic.isMusicOn()) mainMusic.playMusic(MusicTypes.LOOP);
-		
-		while (gameStatus) {
-			double current = System.nanoTime();
-			
-			double elapsed = current - previous;
-			previous = current;
-			delta += elapsed;
+	private ArrayList<Integer> paddlesPositionsX;
 
-				while (delta >= ns) {
-				   update();	
-				   delta -= ns;
-				}
-			render();
-		}
-	}
-	
-		// caricamento immagini 
+
+	// caricamento immagini 
 		private void uploadImages() {
 			
 			loader = new ImagesLoader();
@@ -152,8 +131,7 @@ public class Screen extends Canvas implements Runnable{
 			
 			objSfondo.render(g, this);
 			objBall.render(g);
-			//for(Player ps : players) {
-			objPaddle.render(g);
+		    for (Paddle tempPaddle : objPaddles) tempPaddle.render(g);
 			objBox.render(g);
             g.drawImage(hitBox, 508, 3, 30, 30, null);
             
@@ -233,10 +211,14 @@ public class Screen extends Canvas implements Runnable{
 		    gameOver = lifePlayer.checkLife();
 		    gameStatus = ball1.checkBorderCollision();
 		    
-		    
-			ball1.checkCollisionLato(objPaddle);
+		    paddlesPositionsX = game.getPaddlesPositionsX();
+		    paddlesPositionsY = game.getPaddlesPositionsY();
+		    for (int i=0; i<objPaddles.size(); i++) {
+		    	objPaddles.get(i).setPosition(paddlesPositionsX.get(i), paddlesPositionsY.get(i));
+				ball1.checkCollisionLato(objPaddles.get(i));
+				ball1.checkCollision(objPaddles.get(i));
+		    }
 			ball1.checkCollisionLato(objBox);
-			ball1.checkCollision(objPaddle);
 			
 			for (Brick tempBrick : objBricks) {
 				if (!tempBrick.isDestroyed()) {
@@ -267,13 +249,38 @@ public class Screen extends Canvas implements Runnable{
 					tempBrick.disactivatePowerUp();
 				}
 			}
-			paddles = game.getPaddlesPositions();
-			int paddlePosition = paddles.get(0);
-			objPaddle.onlinePosition(paddlePosition);			
 			
 			if(gameWin) endGameWin();			
 		}
 		
+		// ciclo di gioco
+		@Override
+		public void run() {
+			
+			double previous = System.nanoTime(); 
+			double delta = 0.0;
+			double fps = 100.0;
+			double ns = 1e9/fps; // numero di nano sec per fps
+			gameStatus = true;
+			
+			//switchare off/on
+			//if (mainMusic.isMusicOn()) mainMusic.playMusic(MusicTypes.LOOP);
+			
+			while (gameStatus) {
+				double current = System.nanoTime();
+				
+				double elapsed = current - previous;
+				previous = current;
+				delta += elapsed;
+		
+					while (delta >= ns) {
+					   update();	
+					   delta -= ns;
+					}
+				render();
+			}
+		}
+
 		// inzializzazione partita
 		public void start() {
 			
@@ -304,7 +311,9 @@ public class Screen extends Canvas implements Runnable{
 			ball1 = new CollisionAdvisor(objBall);
 			
 			//creazione e posizionamento dei Bricks
-			levels = new Levels(brick, fastBrick, flipBrick, objBall, objPaddle);
+			levels = new Levels(brick, fastBrick, flipBrick, objBall);
+			objBricks = levels.getBricksDesposition();
+
 			this.lifePlayer = new LifeAdvisor(players.get(0), ball1, objBall);
 			
 		}
@@ -356,31 +365,13 @@ public class Screen extends Canvas implements Runnable{
 		
 
 		//Aggiungo player alla partita
-		public void newPlayer(Player p) {
-			this.players = game.getPlayers();
-			this.objPaddle = players.get(0).getObjPaddle();
-			
-		}
-		
-		public void reset() {
-			
-			for(Brick tempBrick : objBricks) {
-				tempBrick.refresh();
-				if(tempBrick.getHasPowerUp()) tempBrick.disactivatePowerUp();
+		public void addPlayers(ArrayList<Player> players) {
+			this.players = players;
+			for (Player tempPlayer : players) {
+				objPaddles.add(tempPlayer.getObjPaddle());
 			}
-			
-			objBall.refresh();
-			objPaddle.setPosition(Utilities.INITIAL_POSITION_PADDLE_X, Utilities.INITIAL_POSITION_PADDLE_Y);
-			score.resetPoints(players.get(0));
-			lifePlayer.resetLife();
-			
 		}
 		
-		public void setLevel(TypeLevels lv) {
-
-			levels.setLevel(lv);
-			objBricks = levels.getBricksDesposition();
-		}
 
 		public Graphics getG() {
 			return g;

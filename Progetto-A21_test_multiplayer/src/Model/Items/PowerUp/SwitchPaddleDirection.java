@@ -1,12 +1,15 @@
 package Model.Items.PowerUp;
 
+import java.util.ArrayList;
+
 import Model.Items.Paddle;
 import Model.Items.ScreenItem;
+import Model.Logic.Player;
 
 public class SwitchPaddleDirection extends PowerUp {
 	
-	public SwitchPaddleDirection(ScreenItem screenItem) {
-		super.affectedScreenItem = screenItem;
+	public SwitchPaddleDirection(ArrayList<Paddle> paddles) {
+		super.affectedScreenItem = paddles;
 	}
 
 	@Override
