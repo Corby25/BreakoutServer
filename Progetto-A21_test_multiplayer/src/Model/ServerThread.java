@@ -29,7 +29,7 @@ public class ServerThread extends Thread {
     synchronized public void run() {
         while (true) {
             try {
-            	System.out.println(screen.stringGameFullStatus());
+            	//System.out.println(screen.stringGameFullStatus());
                 byte[] bytes = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
                 socket.receive(packet);
