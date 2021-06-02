@@ -29,6 +29,7 @@ public class ServerThread extends Thread {
     synchronized public void run() {
         while (true) {
             try {
+            	System.out.println(screen.stringGameFullStatus());
                 byte[] bytes = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
                 socket.receive(packet);
@@ -36,8 +37,8 @@ public class ServerThread extends Thread {
                 String paddlePositionSplitted[] = paddlePositionXY.split(" ");
                 paddlePoisitionX=Integer.parseInt(paddlePositionSplitted[0]);
                 paddlePoisitionY=Integer.parseInt(paddlePositionSplitted[1]);
-                System.out.println(paddlePoisitionX);
-                System.out.println(paddlePoisitionY);
+                //System.out.println(paddlePoisitionX);
+                //System.out.println(paddlePoisitionY);
 
                 wait(10);
             } catch (EOFException e) {

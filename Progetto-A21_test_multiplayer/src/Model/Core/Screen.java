@@ -195,7 +195,7 @@ public class Screen extends Canvas implements Runnable{
 					g.drawImage(life, 505, 98, 20, 20, null);
 			}
 
-		    endGameOver();
+		    //endGameOver();
 			
 			if (gameOver) g.drawImage(youLose, 495/2 - 250, Utilities.SCREEN_HEIGHT/2 - 250, 500, 500, null);
 			
@@ -250,7 +250,8 @@ public class Screen extends Canvas implements Runnable{
 				}
 			}
 			
-			if(gameWin) endGameWin();			
+			if (gameWin) endGame();		
+			
 		}
 		
 		// ciclo di gioco
@@ -323,6 +324,24 @@ public class Screen extends Canvas implements Runnable{
 		 * ritorna true se tutti i brick sono distrutti, quindi ho vinto
 		 * ritorna false se cisono ancora brick da distruggere
 		 */
+		public String stringGameFullStatus() {
+			StringBuilder stringGameFullStatus = new StringBuilder();
+			for (Paddle tempPaddle : objPaddles) {
+				stringGameFullStatus.append(tempPaddle.getXPosition());
+				stringGameFullStatus.append(" ");
+				stringGameFullStatus.append(tempPaddle.getYPosition());
+				stringGameFullStatus.append(" ");
+			}
+			for (Brick tempBrick : objBricks) {
+				stringGameFullStatus.append(tempBrick.getHitLevel());
+				stringGameFullStatus.append(" ");
+			}
+			stringGameFullStatus.append(objBall.getXPosition());
+			stringGameFullStatus.append(" ");
+			stringGameFullStatus.append(objBall.getYPosition());
+			stringGameFullStatus.append(" ");	
+			return stringGameFullStatus.toString();
+		}
 		
 		private boolean checkWin() {
 			//return objSpecialBrick.isDestroyed();  // Vittoria per distruzione del SPECIAL brick
@@ -340,29 +359,9 @@ public class Screen extends Canvas implements Runnable{
 		/*
 		 * metodo che viene chiamato alla fine del game
 		 */
-		private void endGameOver() {
-			if(!gameStatus) {
-				// ho perso
-				try {
-					TimeUnit.SECONDS.sleep(2);
-				} catch (InterruptedException e) {
+		private void endGame() {
 
-					e.printStackTrace();
-				}	
-				//game.gameWin(false);
-			}
 		}
-		
-		private void endGameWin() {
-			try {
-				TimeUnit.SECONDS.sleep(2);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-			//game.gameWin(false);
-		}
-		
 
 		//Aggiungo player alla partita
 		public void addPlayers(ArrayList<Player> players) {

@@ -28,8 +28,6 @@ public class Server {
     public void initServer() {
         try {
             DatagramSocket datagramSocket = new DatagramSocket(serverPort);
-            /*threadsIn = new ArrayList<ServerThread>();
-            ArrayList<DatagramSocket> sockets = new ArrayList<DatagramSocket>();*/
             while (true) {
                 byte[] b = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(b, b.length);
@@ -83,38 +81,10 @@ public class Server {
                     DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
                     datagramSocket.send(packetBack);                	
                 }
-                
-                /*int newPort = portaServer + threadsIn.size() + 1;
-                b = ((Integer) newPort).toString().getBytes();
-                DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
-                datagramSocket.send(packetBack);
-                sockets.add(new DatagramSocket(newPort));
-                names = playerName;
-                threadsIn.add(new ServerThread(sockets.get(sockets.size() - 1), packet.getAddress(), packet.getPort(), screen));*/
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-
-            /*datagramSocket.close();
-
-            for (ServerThread t : threadsIn) {
-                t.start();
-            }
-            return true;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;*/
-    
-    
-    /*public int getPositionClientPaddle (int idClient) {
-    	return threadsIn.get(idClient).getPaddlePoisition();
-    }*/
-
 }
-//ciao

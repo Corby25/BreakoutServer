@@ -58,6 +58,12 @@ public class BreakoutGame {
 	public void start() {	
 		// creazione gioco 
 		this.screen = new Screen(this);
+		
+		this.score = new ScoreAdvisor(screen); 
+		
+		screen.addPlayers(players);
+		screen.start();
+		
 		for (int i=0; i<numberOfPlayers;i++) {
 			DatagramSocket newDatagramSocket;
 			try {
@@ -69,16 +75,6 @@ public class BreakoutGame {
 				e.printStackTrace();
 			}
 		}
-		this.score = new ScoreAdvisor(screen); 
-		gameSetup();
-		
-	}
-
-	
-	// inizializzazione gioco e giocatori a sceonda delle scelte dell'utente
-	public void gameSetup() {
-		screen.addPlayers(players);
-		screen.start();
 			
 		gameFrame.add(screen);
 		gameFrame.requestFocusInWindow();
