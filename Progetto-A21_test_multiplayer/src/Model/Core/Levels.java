@@ -58,9 +58,9 @@ public class Levels {
 			objBricks.add(new Brick(brick, 65, 25, posInitBrick,4));
 		}
 		
-		/*int[] posFastBrick = {150,85};
+		int[] posFastBrick = {150,85};
 		PowerUp speedUp = new BallSpeedUp(objBall);
-		objBricks.add(new Brick(fastBrick, 35, 35, posFastBrick,1, speedUp));*/
+		objBricks.add(new Brick(fastBrick, 35, 35, posFastBrick,1, speedUp));
 		
 		int[] posFlipBrick = {315,85};
 		objBricks.add(new Brick(flipBrick, 35, 35, posFlipBrick,1));

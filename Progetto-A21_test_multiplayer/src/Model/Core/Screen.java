@@ -207,7 +207,7 @@ public class Screen extends Canvas implements Runnable{
 		// aggiornamento ciclo di gioco
 		synchronized public void update() {
 			
-		    //objBall.move();
+		    objBall.move();
 		    gameOver = lifePlayer.checkLife();
 		    gameStatus = ball1.checkBorderCollision();
 		    
@@ -249,9 +249,7 @@ public class Screen extends Canvas implements Runnable{
 					tempBrick.disactivatePowerUp();
 				}
 			}
-			
 			if (gameWin) endGame();		
-			
 		}
 		
 		// ciclo di gioco

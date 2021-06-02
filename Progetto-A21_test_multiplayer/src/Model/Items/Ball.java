@@ -59,31 +59,4 @@ public class Ball extends ScreenItem{
     	yDirection = Utilities.INITIAL_DIRECTION_BALL_Y;
     	speed = (int) Utilities.DEFAULT_SPEED;
     }
-    
-   
-    /*
-    //i metodi setxdir e setydir vengono chiamati quando la pallina colpisce il paddle o il mattone
-    public void setXdir(int xdir) {
-        this.xdir = xdir;
-        if (this.xdir*xdir1<0) xdir1*=-1;
-    }
-
-    public void setYdir(int ydir) {
-        this.ydir = ydir;
-        if (this.ydir*ydir1<0) ydir1*=-1;
-    }
-    
-    public int getSpeed() {
-    	int vel = xdir1;
-    	if (xdir1<0) vel*=-1;
-    	return vel;
-    }
-    
-    public void incrSpeed() {
-    	if (xdir1==-1) xdir1 -= 1;
-    	else if(xdir1==1) xdir1 += 1;
-    	if (ydir1==-1) ydir1 -= 1;
-    	else if (ydir1==1) ydir1 += 1;   		
-    }
-    */
 }

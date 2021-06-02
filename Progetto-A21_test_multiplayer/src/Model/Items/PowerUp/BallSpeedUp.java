@@ -7,18 +7,18 @@ import Model.Items.Utilities;
 public class BallSpeedUp extends PowerUp {
 	
 	public BallSpeedUp(ScreenItem screenItem) {
-		super.affectedScreenItem.add(screenItem);
+		super.affectedScreenItem = screenItem;
 	}
 
 	@Override
 	public void activate() {
-		((Ball)affectedScreenItem.get(0)).incrSpeed();
+		((Ball)affectedScreenItem).incrSpeed();
 		this.setActive(true);
 	}
 
 	@Override
 	public void disactivate() {
-		((Ball)affectedScreenItem.get(0)).setSpeed(Utilities.DEFAULT_SPEED);
+		((Ball)affectedScreenItem).setSpeed(Utilities.DEFAULT_SPEED);
 		this.setActive(false);
 	}
 

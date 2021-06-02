@@ -1,13 +1,11 @@
 package Model.Items.PowerUp;
 
-import java.util.ArrayList;
-
 import Model.Items.ScreenItem;
 
 public abstract class PowerUp {
 	
 	protected boolean active;
-	protected ArrayList affectedScreenItem;
+	protected ScreenItem affectedScreenItem;
 	
 	public PowerUp() {
 		active = false;
