@@ -25,7 +25,6 @@ public class LifeAdvisor {
 			ball.refresh();
 		}
 		return false;
-		
 		}
 	
 	public void resetLife() {

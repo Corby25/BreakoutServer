@@ -30,7 +30,6 @@ import Model.Items.PowerUp.SwitchPaddleDirection;
 import Model.Logic.CollisionAdvisor;
 import Model.Logic.LifeAdvisor;
 import Model.Logic.Player;
-import Model.Logic.ScoreAdvisor;
 
 
 public class Screen extends Canvas implements Runnable{
@@ -62,23 +61,26 @@ public class Screen extends Canvas implements Runnable{
 	private Graphics g;
 	CollisionAdvisor ball1;
 	private BreakoutGame game;
-	private ScoreAdvisor score;
 	private Levels levels;
 	private ArrayList<Player> players;
 	double fastStartTime = 0;
 	double switchStart = 0;
-	int i = 0;
 	private LifeAdvisor lifePlayer;
 	double flipStartTime = 0;
-
+	private boolean victory;
+	private boolean loss;
+	private int score;
 	private Server server;
 	private ArrayList<Integer> paddlesPositionsY;
+	private int fastRemainingTime, flipRemainingTime;
 
 	
 	public Screen(BreakoutGame game) {
 		this.game = game;
 		objBricks = new ArrayList<Brick>();
 		objPaddles = new ArrayList<Paddle>();
+		victory = false;
+		loss = false;
 
 		//objSpecialBricks = new ArrayList<SpecialBrick>();
 		uploadImages();
@@ -109,6 +111,34 @@ public class Screen extends Canvas implements Runnable{
 			fastLogo = loader.uploadImage("/Images/fastLogo.png");
 			flipLogo = loader.uploadImage("/Images/flipLogo.png");
 			life = loader.uploadImage("/Images/life.png");
+		}
+		
+		// ciclo di gioco
+				@Override
+		public void run() {
+			
+			double previous = System.nanoTime(); 
+			double delta = 0.0;
+			double fps = 100.0;
+			double ns = 1e9/fps; // numero di nano sec per fps
+			gameStatus = true;
+			
+			//switchare off/on
+			//if (mainMusic.isMusicOn()) mainMusic.playMusic(MusicTypes.LOOP);
+			
+			while (gameStatus) {
+				double current = System.nanoTime();
+				
+				double elapsed = current - previous;
+				previous = current;
+				delta += elapsed;
+		
+					while (delta >= ns) {
+					   update();	
+					   delta -= ns;
+					}
+				render();
+			}
 		}
 
 		// disegno di oggetti grafici a schermo
@@ -151,7 +181,7 @@ public class Screen extends Canvas implements Runnable{
             }
             else g.drawImage(off, 508, 228, 25, 25, null);
 		
-			g.drawString(String.valueOf(players.get(0).getPlayerScore()), 505, 58);
+			g.drawString(((Integer) score).toString(), 505, 58);
 			
 			int n = 0;
 			for (Brick tempBrick : objBricks) {
@@ -207,9 +237,13 @@ public class Screen extends Canvas implements Runnable{
 		// aggiornamento ciclo di gioco
 		synchronized public void update() {
 			
+			endGameWin();
+			endGameOver();
+			
 		    objBall.move();
 		    gameOver = lifePlayer.checkLife();
 		    gameStatus = ball1.checkBorderCollision();
+			ball1.checkCollisionLato(objBox);
 		    
 		    paddlesPositionsX = game.getPaddlesPositionsX();
 		    paddlesPositionsY = game.getPaddlesPositionsY();
@@ -218,16 +252,15 @@ public class Screen extends Canvas implements Runnable{
 				ball1.checkCollisionLato(objPaddles.get(i));
 				ball1.checkCollision(objPaddles.get(i));
 		    }
-			ball1.checkCollisionLato(objBox);
 			
 			for (Brick tempBrick : objBricks) {
 				if (!tempBrick.isDestroyed()) {
 					if(ball1.checkCollisionLato(tempBrick) || ball1.checkCollision(tempBrick)) {
-						score.addPoint(players.get(0));	
+						score += 1;	
 					}
 					if(tempBrick.isDestroyed()) {
 						if (tempBrick.whichPower() == PowerUpTypes.FAST) isFastStarted = tempBrick.activatePowerUP();
-						if (tempBrick.whichPower() == PowerUpTypes.FLIP) isFlipStarted = tempBrick.activatePowerUP();
+						if (tempBrick.whichPower() == PowerUpTypes.FLIP) isFlipStarted = true;
 					}
 					if(isFastStarted) {
 						fastStartTime = System.nanoTime();
@@ -246,45 +279,16 @@ public class Screen extends Canvas implements Runnable{
 				}
 				if (System.nanoTime() >= flipStartTime+10e9 && tempBrick.whichPower() == PowerUpTypes.FLIP) {
 					isFlipActive = false;
-					tempBrick.disactivatePowerUp();
 				}
 			}
-			if (gameWin) endGame();		
+			fastRemainingTime = (int)((flipStartTime+10e9-System.nanoTime())/1e9);
+			flipRemainingTime = (int)((fastStartTime+10e9-System.nanoTime())/1e9);		
 		}
 		
-		// ciclo di gioco
-		@Override
-		public void run() {
-			
-			double previous = System.nanoTime(); 
-			double delta = 0.0;
-			double fps = 100.0;
-			double ns = 1e9/fps; // numero di nano sec per fps
-			gameStatus = true;
-			
-			//switchare off/on
-			//if (mainMusic.isMusicOn()) mainMusic.playMusic(MusicTypes.LOOP);
-			
-			while (gameStatus) {
-				double current = System.nanoTime();
-				
-				double elapsed = current - previous;
-				previous = current;
-				delta += elapsed;
-		
-					while (delta >= ns) {
-					   update();	
-					   delta -= ns;
-					}
-				render();
-			}
-		}
 
 		// inzializzazione partita
 		public void start() {
-			
-			this.score = game.getScoreAdvisor();
-			
+						
 			// posizione di partenza dello sfondo
 			int[] posInitSfondo = new int[2];
 			posInitSfondo[0] = 0;
@@ -317,12 +321,8 @@ public class Screen extends Canvas implements Runnable{
 			
 		}
 		
-		/*
-		 * controlla la winn condition
-		 * ritorna true se tutti i brick sono distrutti, quindi ho vinto
-		 * ritorna false se cisono ancora brick da distruggere
-		 */
 		public String stringGameFullStatus() {
+			
 			StringBuilder stringGameFullStatus = new StringBuilder();
 			for (Paddle tempPaddle : objPaddles) {
 				stringGameFullStatus.append(tempPaddle.getXPosition());
@@ -334,33 +334,38 @@ public class Screen extends Canvas implements Runnable{
 				stringGameFullStatus.append(tempBrick.getHitLevel());
 				stringGameFullStatus.append(" ");
 			}
-			stringGameFullStatus.append(objBall.getXPosition());
-			stringGameFullStatus.append(" ");
-			stringGameFullStatus.append(objBall.getYPosition());
-			stringGameFullStatus.append(" ");	
+			stringGameFullStatus.append(objBall.getXPosition()+" "+objBall.getYPosition()+" ");
+			stringGameFullStatus.append(((Integer) score).toString()+" "+3+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
+			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
+
 			return stringGameFullStatus.toString();
 		}
 		
-		private boolean checkWin() {
-			//return objSpecialBrick.isDestroyed();  // Vittoria per distruzione del SPECIAL brick
-			//Vittoria per Distruzione di tutti i Brick
+		private void endGameWin() {
 			int n = 0;
 			for(Brick tempBrick : objBricks) {
 				if(!tempBrick.isDestroyed()) {
 					n++;
 				}
 			}
-			if(n!=0) return false;
-			else return true;
-			
+			if(n==0) {
+				gameStatus=false;
+				victory = true;
+			}
 		}
-		/*
-		 * metodo che viene chiamato alla fine del game
-		 */
-		private void endGame() {
-
+	
+		private void endGameOver() {
+			/*if (life == 0) {
+				gameStatus = false;
+				loss=true;
+			}*/
 		}
-
+		
+		public boolean isGameEnded() {
+			if (victory || loss) return true;
+			return false;
+		}
+		
 		//Aggiungo player alla partita
 		public void addPlayers(ArrayList<Player> players) {
 			this.players = players;
@@ -369,7 +374,6 @@ public class Screen extends Canvas implements Runnable{
 			}
 		}
 		
-
 		public Graphics getG() {
 			return g;
 		}

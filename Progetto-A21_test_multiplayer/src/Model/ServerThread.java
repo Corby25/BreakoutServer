@@ -16,6 +16,7 @@ public class ServerThread extends Thread {
 	private int paddlePoisitionY = 0;
     private boolean deletable;
     private Screen screen;
+    private boolean isGameRunning;
 
     public ServerThread(DatagramSocket socket, InetAddress address, int port, Screen screen) {
         this.socket = socket;
@@ -24,11 +25,13 @@ public class ServerThread extends Thread {
         deletable = false;
         socket.connect(address, port);
     	this.screen=screen;
+    	isGameRunning = true;
     }
 
     synchronized public void run() {
-        while (true) {
+        while (isGameRunning) {
             try {
+            	if (screen.isGameEnded()) isGameRunning = false;
             	//System.out.println(screen.stringGameFullStatus());
                 byte[] bytes = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
@@ -37,8 +40,6 @@ public class ServerThread extends Thread {
                 String paddlePositionSplitted[] = paddlePositionXY.split(" ");
                 paddlePoisitionX=Integer.parseInt(paddlePositionSplitted[0]);
                 paddlePoisitionY=Integer.parseInt(paddlePositionSplitted[1]);
-                //System.out.println(paddlePoisitionX);
-                //System.out.println(paddlePoisitionY);
 
                 wait(10);
             } catch (EOFException e) {

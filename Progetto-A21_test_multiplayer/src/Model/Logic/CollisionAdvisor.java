@@ -18,7 +18,7 @@ public class CollisionAdvisor {
 	}
 	
 	public boolean checkGameOver() {
-		if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT-4) {
+		if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT-3 || ball.getPosition()[0] <= 3){
             return true;
         }
 		return false;
@@ -32,7 +32,7 @@ public class CollisionAdvisor {
         }
 
         if (ball.getPosition()[0] <= 0) {
-            ball.setXdir(1);
+        	return false;
         }
 
         if (ball.getPosition()[1] <= 0) {
@@ -40,7 +40,7 @@ public class CollisionAdvisor {
         }
         
         if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT) {
-               return false;
+             return false;
         }
         else return true;
  

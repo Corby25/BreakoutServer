@@ -8,23 +8,25 @@ import Model.Logic.Player;
 
 public class SwitchPaddleDirection extends PowerUp {
 	
-	public SwitchPaddleDirection(ArrayList<Paddle> paddles) {
-		super.affectedScreenItem = paddles;
+	public SwitchPaddleDirection() {
+	}
+
+	@Override
+	
+	
+	public PowerUpTypes whichPower() {
+		return PowerUpTypes.FLIP;
 	}
 
 	@Override
 	public void activate() {
-		((Paddle)affectedScreenItem).switchDir();
-		this.setActive(true);
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void disactivate() {
-			((Paddle)affectedScreenItem).switchDir();
-			this.setActive(false);
-	}
-	
-	public PowerUpTypes whichPower() {
-		return PowerUpTypes.FLIP;
+		// TODO Auto-generated method stub
+		
 	}
 }

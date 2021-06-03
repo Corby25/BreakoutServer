@@ -11,5 +11,4 @@ public class Box extends ScreenItem {
 		super(image, width, height, position);
 		// TODO Auto-generated constructor stub
 	}
-	
 }
