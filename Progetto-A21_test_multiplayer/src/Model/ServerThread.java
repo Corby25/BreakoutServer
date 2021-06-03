@@ -32,7 +32,7 @@ public class ServerThread extends Thread {
         while (isGameRunning) {
             try {
             	if (screen.isGameEnded()) isGameRunning = false;
-            	//System.out.println(screen.stringGameFullStatus());
+				
                 byte[] bytes = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
                 socket.receive(packet);
@@ -40,6 +40,14 @@ public class ServerThread extends Thread {
                 String paddlePositionSplitted[] = paddlePositionXY.split(" ");
                 paddlePoisitionX=Integer.parseInt(paddlePositionSplitted[0]);
                 paddlePoisitionY=Integer.parseInt(paddlePositionSplitted[1]);
+                
+                byte[] b = new byte[1024];
+	        	b = (screen.stringGameFullStatus()).getBytes();
+	        	DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
+	        	socket.send(packetBack);
+                
+                System.out.println(paddlePoisitionX);
+                
 
                 wait(10);
             } catch (EOFException e) {
