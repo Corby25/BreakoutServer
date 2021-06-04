@@ -43,11 +43,8 @@ public class ServerThread extends Thread {
                 
                 byte[] b = new byte[1024];
 	        	b = (screen.stringGameFullStatus()).getBytes();
-	        	DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
-	        	socket.send(packetBack);
-                
-                System.out.println(paddlePoisitionX);
-                
+	        	DatagramPacket packetBack = new DatagramPacket(b, b.length, address, port);
+	        	socket.send(packetBack);           
 
                 wait(10);
             } catch (EOFException e) {

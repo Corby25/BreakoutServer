@@ -97,8 +97,8 @@ public class BreakoutGame {
 		else return false;
 	}
 	
-	public Integer getNumMissingPlayers() {
-		Integer numbMissingPlayers = numberOfPlayers-players.size();
+	public int getNumMissingPlayers() {
+		int numbMissingPlayers = numberOfPlayers-players.size();
 		return numbMissingPlayers;
 	}
 	

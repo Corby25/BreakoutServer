@@ -335,7 +335,7 @@ public class Screen extends Canvas implements Runnable{
 				stringGameFullStatus.append(" ");
 			}
 			stringGameFullStatus.append(objBall.getXPosition()+" "+objBall.getYPosition()+" ");
-			stringGameFullStatus.append(((Integer) score).toString()+" "+3+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
+			stringGameFullStatus.append(score+" "+3+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
 			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
 
 			return stringGameFullStatus.toString();

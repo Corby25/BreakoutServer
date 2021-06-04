@@ -69,14 +69,14 @@ public class Server {
                 			gameToJoin = randomGames.get(randomGames.size()-1);
             			}
             		}
-            		b = ("true "+Server.nextAvailablePort+" "+gameToJoin.getNumMissingPlayers().toString()+" "+numberOfPlayers+" "+((Integer) gameToJoin.getLastPlayerIndex()).toString()).getBytes();
+            		b = ("true "+Server.nextAvailablePort+" "+gameToJoin.getNumMissingPlayers()+" "+numberOfPlayers+" "+gameToJoin.getLastPlayerIndex()).getBytes();
                     DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
                     datagramSocket.send(packetBack);
             	}
             	else {
 	            	if (AllInfos[0].equals("true")) {
 	                	Server.nextAvailablePort += 1;
-	                	Integer numberOfMissingPlayers = 0;
+	                	int numberOfMissingPlayers = 0;
 	                	boolean gameExists= games.containsKey(gameCode);
 	                    int playerIndex = 0;
 	                	if (!gameExists) {
@@ -86,7 +86,7 @@ public class Server {
 		                	numberOfMissingPlayers = gameToJoin.getNumMissingPlayers();
 		                	playerIndex = gameToJoin.getLastPlayerIndex();
 	                	}
-		                b = (Boolean.toString(!gameExists)+" "+Server.nextAvailablePort+" "+numberOfMissingPlayers.toString()+" "+numberOfPlayers+" "+playerIndex).getBytes();
+		                b = (Boolean.toString(!gameExists)+" "+Server.nextAvailablePort+" "+numberOfMissingPlayers+" "+numberOfPlayers+" "+playerIndex).getBytes();
 	                    DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
 	                    datagramSocket.send(packetBack);
 	                }
@@ -106,7 +106,7 @@ public class Server {
 		                    if (!isAdded) joinSuccess = false;
 	                	}
 	                
-	                    b = (Boolean.toString(joinSuccess)+" "+Server.nextAvailablePort+" "+numberOfMissingPlayers.toString()+" "+numberOfPlayers+" "+playerIndex).getBytes();
+	                    b = (Boolean.toString(joinSuccess)+" "+Server.nextAvailablePort+" "+numberOfMissingPlayers+" "+numberOfPlayers+" "+playerIndex).getBytes();
 	                    DatagramPacket packetBack = new DatagramPacket(b, b.length, packet.getAddress(), packet.getPort());
 	                    datagramSocket.send(packetBack);                	
 	                }
