@@ -44,7 +44,7 @@ public class Levels {
 				objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
 			}
 		}
-		/*for(int i = 0; i < 4; i++) {//first 2 layers down
+		for(int i = 0; i < 4; i++) {//first 2 layers down
 			for (int j = 0; j < 2; j++) { 
 				
 				int[] posInitBrick = new int[2];
@@ -56,7 +56,7 @@ public class Levels {
 				// creo i Bricks
 				objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
 			}
-		}*/
+		}
 		for (int i = 0; i < 1; i++) { //1 left bricks in the middle
 			int[] posInitBrick = new int[2];
 			posInitBrick[0] = i * 80+ 100;  //nell'asse x
