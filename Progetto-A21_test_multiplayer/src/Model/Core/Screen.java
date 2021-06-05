@@ -281,8 +281,8 @@ public class Screen extends Canvas implements Runnable{
 					isFlipActive = false;
 				}
 			}
-			fastRemainingTime = (int)((flipStartTime+10e9-System.nanoTime())/1e9);
-			flipRemainingTime = (int)((fastStartTime+10e9-System.nanoTime())/1e9);		
+			fastRemainingTime = (int)((fastStartTime+10e9-System.nanoTime())/1e9);
+			flipRemainingTime = (int)((flipStartTime+10e9-System.nanoTime())/1e9);		
 		}
 		
 

@@ -81,9 +81,9 @@ public class Levels {
 		PowerUp speedUp = new BallSpeedUp(objBall);
 		objBricks.add(new Brick(fastBrick, 35, 35, posFastBrick,1, speedUp));
 		
-		/*int[] posFlipBrick = {293,275};//change-direction special brick
-		PowerUp flipUp = new SwitchPaddleDirection(objPaddle);
-		objBricks.add(new Brick(flipBrick, 35, 35, posFlipBrick,1, flipUp));*/
+		int[] posFlipBrick = {293,275};//change-direction special brick
+		PowerUp fakeFlip = new SwitchPaddleDirection();
+		objBricks.add(new Brick(flipBrick, 35, 35, posFlipBrick,1, fakeFlip));
 		
 	
 									
