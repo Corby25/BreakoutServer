@@ -19,7 +19,7 @@ public class Server {
     private HashMap<String,BreakoutGame> games;
     private ArrayList<BreakoutGame> randomGames;
     BreakoutGame gameToJoin;
-    static int serverPort = 4861;
+    static int serverPort = 4863;
     static int nextAvailablePort = serverPort+1;
     
     public Server() {

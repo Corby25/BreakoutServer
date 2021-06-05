@@ -30,40 +30,62 @@ public class Levels {
 	}
 	
 	public ArrayList<Brick> getBricksDesposition() {
-		for(int i = 0; i < 4; i++) {
-			for (int j = 0; j < 3; j++) { 
+		
+		for(int i = 0; i < 4; i++) {//first 2 layers up
+			for (int j = 0; j < 2; j++) { 
 				
 				int[] posInitBrick = new int[2];
-
+				
 				// posizione di partenza dei Brick
-				posInitBrick[0] = i * 110 + 50;  //nell'asse x
-				posInitBrick[1] = j * 60 + 150; //nell'asse y
+				posInitBrick[0] = i * 80 + 100;  //nell'asse x
+				posInitBrick[1] = j * 43 + 193; //nell'asse y
 		
 				// creo i Bricks
 				objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
 			}
 		}
+		/*for(int i = 0; i < 4; i++) {//first 2 layers down
+			for (int j = 0; j < 2; j++) { 
+				
+				int[] posInitBrick = new int[2];
+				
+				// posizione di partenza dei Brick
+				posInitBrick[0] = i * 80 + 100;  //nell'asse x
+				posInitBrick[1] = j * 45 + 325; //nell'asse y
 		
-		for (int i = 0; i < 3; i++) {
+				// creo i Bricks
+				objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
+			}
+		}*/
+		for (int i = 0; i < 1; i++) { //1 left bricks in the middle
 			int[] posInitBrick = new int[2];
-			posInitBrick[0] = i * 165 + 50;  //nell'asse x
-			posInitBrick[1] = 90; //nell'asse y
+			posInitBrick[0] = i * 80+ 100;  //nell'asse x
+			posInitBrick[1] = 280; //nell'asse y
 			objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
 		}
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 1; i++) { //1 right bricks in the middle
 			int[] posInitBrick = new int[2];
-			posInitBrick[0] = i * 110 + 50;  //nell'asse x
-			posInitBrick[1] = 30; //nell'asse y
-			objBricks.add(new Brick(brick, 65, 25, posInitBrick,4));
+			posInitBrick[0] = i * 80+ 340;  //nell'asse x
+			posInitBrick[1] = 280; //nell'asse y
+			objBricks.add(new Brick(brick, 65, 25, posInitBrick, 4));
 		}
 		
-		int[] posFastBrick = {150,85};
+		//1 central bricks in the middle
+		int[] posInitBrick = new int[2];
+		posInitBrick[0] = 210+ 10;  //nell'asse x
+		posInitBrick[1] = 280; //nell'asse y
+		objBricks.add(new Brick(brick, 60, 25, posInitBrick,4));
+		
+		int[] posFastBrick = {175,275};//speed special brick
 		PowerUp speedUp = new BallSpeedUp(objBall);
 		objBricks.add(new Brick(fastBrick, 35, 35, posFastBrick,1, speedUp));
 		
-		int[] posFlipBrick = {315,85};
-		objBricks.add(new Brick(flipBrick, 35, 35, posFlipBrick,1));
+		/*int[] posFlipBrick = {293,275};//change-direction special brick
+		PowerUp flipUp = new SwitchPaddleDirection(objPaddle);
+		objBricks.add(new Brick(flipBrick, 35, 35, posFlipBrick,1, flipUp));*/
+		
+	
 									
 		return (ArrayList<Brick>) objBricks;
 	}

@@ -103,7 +103,8 @@ public class BreakoutGame {
 	}
 	
 	public int getLastPlayerIndex() {
-		return players.size();
+		int lastPlayer = players.size()-1;
+		return lastPlayer;
 	}
 	
 	public int getNumberOfPlayers() {
