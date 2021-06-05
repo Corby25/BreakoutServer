@@ -65,7 +65,7 @@ public class Screen extends Canvas implements Runnable{
 	private ArrayList<Player> players;
 	double fastStartTime = 0;
 	double switchStart = 0;
-	private LifeAdvisor lifePlayer;
+	private LifeAdvisor lifeAdvisor;
 	double flipStartTime = 0;
 	private boolean victory;
 	private boolean loss;
@@ -211,7 +211,7 @@ public class Screen extends Canvas implements Runnable{
 				gameWin = true; 
 			}
 			
-			switch (players.get(0).getLife()) {
+			switch (lifeAdvisor.getLife()) {
 				case 1:
 					g.drawImage(life, 505, 78, 20, 20, null); 
 					break;
@@ -241,7 +241,7 @@ public class Screen extends Canvas implements Runnable{
 			endGameOver();
 			
 		    objBall.move();
-		    gameOver = lifePlayer.checkLife();
+		    gameOver = lifeAdvisor.checkLife();
 		    gameStatus = ball1.checkBorderCollision();
 			ball1.checkCollisionLato(objBox);
 		    
@@ -317,7 +317,7 @@ public class Screen extends Canvas implements Runnable{
 			levels = new Levels(brick, fastBrick, flipBrick, objBall);
 			objBricks = levels.getBricksDesposition();
 
-			this.lifePlayer = new LifeAdvisor(players.get(0), ball1, objBall);
+			lifeAdvisor = new LifeAdvisor(this, ball1, objBall);
 			
 		}
 		
@@ -335,7 +335,7 @@ public class Screen extends Canvas implements Runnable{
 				stringGameFullStatus.append(" ");
 			}
 			stringGameFullStatus.append(objBall.getXPosition()+" "+objBall.getYPosition()+" ");
-			stringGameFullStatus.append(score+" "+3+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
+			stringGameFullStatus.append(score+" "+lifeAdvisor.getLife()+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
 			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
 
 			return stringGameFullStatus.toString();

@@ -5,34 +5,39 @@ import Model.Items.Ball;
 
 public class LifeAdvisor {
 	
-	private Player p;
 	private CollisionAdvisor collision;
 	private Ball ball;
+	private Screen screen;
+	private int life;
 	
-	public LifeAdvisor(Player p, CollisionAdvisor collision, Ball ball) {
+	public LifeAdvisor(Screen screen, CollisionAdvisor collision, Ball ball) {
 		
-		this.p = p;
 		this.collision = collision;
 		this.ball = ball;
+		this.screen = screen;
+		life = 3;
 	}
 	
 	// false se è ancora in vita, true se ha perso
 	
 	public boolean checkLife() {
 		if(collision.checkGameOver()) {
-			p.loseLife();
-			if(p.getLife() < 1) return true;
+			life -= 1;
+			if(life < 1) return true;
 			ball.refresh();
 		}
 		return false;
 		}
 	
 	public void resetLife() {
-		
-		p.resetLife();
+		life=3;
+	}
+	
+	public int getLife() {
+		return life;
 	}
 		
-	}
+}
 	
 	
 

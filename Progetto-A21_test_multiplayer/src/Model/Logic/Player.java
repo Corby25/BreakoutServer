@@ -58,36 +58,6 @@ public class Player {
 		this.inputHandler = inputHandler;
 	}
 	
-	
-	public int getLife() {
-		
-		return life;
-	}
-	
-	public void loseLife() {
-		
-		life --;
-	}
-	
-	public void resetLife() {
-		
-		life = 3;
-	}
-	public int getPlayerScore() {
-		
-		return playerScore;
-	}
-	
-	public void addPoint2Player() {
-		
-		playerScore++;
-	}
-	
-	public void resetPoints() {
-		
-		playerScore = 0;
-		
-	}
 
 	public Paddle getObjPaddle() {	
 		return objPaddle;
