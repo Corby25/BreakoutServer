@@ -19,7 +19,7 @@ public class Server {
     private HashMap<String,BreakoutGame> games;
     private ArrayList<BreakoutGame> randomGames;
     BreakoutGame gameToJoin;
-    static int serverPort = 4866;
+    static int serverPort = 2001;
     static int nextAvailablePort = serverPort+1;
     
     public Server() {
@@ -40,10 +40,7 @@ public class Server {
         		String gameCode = AllInfos[2];
                 int numberOfPlayers = Integer.parseInt(AllInfos[3]);
 
-        		System.out.println(AllInfos[0]);
-        		System.out.println(playerName);
-            	System.out.println(gameCode);
-            	System.out.println(numberOfPlayers);
+        		System.out.println(AllInfo);
 
             	if (gameCode.equals("RANDOM")) {
             		if (randomGames.size()==0) {

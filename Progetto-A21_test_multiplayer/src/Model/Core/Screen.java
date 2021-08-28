@@ -48,6 +48,8 @@ public class Screen extends Canvas implements Runnable{
 	private boolean isFlipStarted = false;
 	private boolean isFastActive = false;
 	private boolean isFlipActive = false;
+	private boolean isXDirectionPositive = true;
+	private boolean isYDirectionPositive = false;
 	private Ball objBall;
 	private List<Brick> objBricks;
 	private Box objBox;
@@ -226,9 +228,7 @@ public class Screen extends Canvas implements Runnable{
 			}
 
 		    //endGameOver();
-			
-			if (gameOver) g.drawImage(youLose, 495/2 - 250, Utilities.SCREEN_HEIGHT/2 - 250, 500, 500, null);
-			
+						
 			g.dispose();
 			
 			buffer.show();
@@ -236,21 +236,21 @@ public class Screen extends Canvas implements Runnable{
 		
 		// aggiornamento ciclo di gioco
 		synchronized public void update() {
-			
+		
 			endGameWin();
 			endGameOver();
 			
 		    objBall.move();
 		    gameOver = lifeAdvisor.checkLife();
-		    gameStatus = ball1.checkBorderCollision();
-			ball1.checkCollisionLato(objBox);
+		    ball1.checkBorderCollision();
+		    ball1.checkCollisionLato(objBox);
 		    
 		    paddlesPositionsX = game.getPaddlesPositionsX();
 		    paddlesPositionsY = game.getPaddlesPositionsY();
 		    for (int i=0; i<objPaddles.size(); i++) {
 		    	objPaddles.get(i).setPosition(paddlesPositionsX.get(i), paddlesPositionsY.get(i));
-				ball1.checkCollisionLato(objPaddles.get(i));
-				ball1.checkCollision(objPaddles.get(i));
+		        ball1.checkCollisionLato(objPaddles.get(i));
+			    ball1.checkCollision(objPaddles.get(i));
 		    }
 			
 			for (Brick tempBrick : objBricks) {
@@ -337,6 +337,9 @@ public class Screen extends Canvas implements Runnable{
 			stringGameFullStatus.append(objBall.getXPosition()+" "+objBall.getYPosition()+" ");
 			stringGameFullStatus.append(score+" "+lifeAdvisor.getLife()+" "+Boolean.toString(isFastActive)+" "+fastRemainingTime+" "+Boolean.toString(isFlipActive)+" "+flipRemainingTime+" ");
 			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
+			for (int i=0; i<players.size(); i++) {
+				stringGameFullStatus.append(" "+players.get(i).getName());
+			}
 
 			return stringGameFullStatus.toString();
 		}

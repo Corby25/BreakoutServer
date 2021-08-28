@@ -63,6 +63,10 @@ public class Player {
 		return objPaddle;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 
 	
 
