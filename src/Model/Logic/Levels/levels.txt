@@ -1,0 +1,47 @@
+# max colonne = 3
+# max righe = 10
+# brick = "b"
+# powerUp = 1,2, ...
+$ 1
+b b 3
+1 2 4
+x
+$ 2
+b 2 b
+b 1 b
+b 2 b
+b   b
+x
+$ 3
+1 b b 
+b b 2
+b b b
+b 1 2
+x
+$ 4
+b b b
+b 2 b
+1 b 2
+b b b 
+2 b 2
+b 1 b
+x
+$ 5
+b b b 
+1 2 1
+b 2 b
+b b b
+b b 1
+1 b 1
+b b b
+x
+$ 6
+b b b
+1 2 1
+b b b 
+2 1 2
+b b b 
+b b b 
+1 2 1
+b b b
+x
