@@ -20,32 +20,21 @@ public class CollisionAdvisor {
 		
 	}
 	
-	public boolean checkGameOver(int numberOfPlayers) {
-		if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT-3) {
+	public boolean checkGameOver() {
+		if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT-3) 
             return true;
-        }
-		if(numberOfPlayers > 1) {
-			if (ball.getPosition()[1] <= 3) return true;
-		}
+            
+		if (ball.getPosition()[1] <= 3) return true;
+		
 		return false;
 	}
 	
-	public boolean checkBorderCollision(int numberOfPlayers) {
+	public boolean checkBorderCollision() {
         if (ball.getPosition()[0] <= 0) {
             ball.setXdir(1);
-			//if (collisionMusic.isMusicOn()) collisionMusic.playMusic(MusicTypes.HIT);
         }
-        
-        if(numberOfPlayers > 1) {
-        	if (ball.getPosition()[1] <= 0) return false;
-        }
-        else {
-        	if (ball.getPosition()[1] <= 0) {
-                ball.setYdir(1);
-        		//if (collisionMusic.isMusicOn()) collisionMusic.playMusic(MusicTypes.HIT);
-            }
-        }
-    
+
+        if (ball.getPosition()[1] <= 0) return false;
         if((ball.getPosition()[1] + ball.getImageHeight()) >= Utilities.SCREEN_HEIGHT) {
                return false;
         }

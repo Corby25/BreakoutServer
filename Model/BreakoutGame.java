@@ -68,8 +68,7 @@ public class BreakoutGame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-			
+		}			
 		gameFrame.add(screen);
 		gameFrame.requestFocusInWindow();
 
@@ -79,6 +78,7 @@ public class BreakoutGame {
 				
 		// avvio ciclo di gioco
 		new Thread(screen).start();
+		
 		screen.setVisible(true);
 	}
 

@@ -61,6 +61,7 @@ public class Screen extends Canvas implements Runnable{
 	private ArrayList<Integer> paddlesPositionsY; // ++
 	protected int lastScore, numberOfPlayers, currentLevel;
 	protected Drawer drawer;
+	private boolean start = true;
 	// -- private ScoreAdvisor scoreAdvisor;
 
 	
@@ -76,7 +77,7 @@ public class Screen extends Canvas implements Runnable{
 	
 		// ciclo di gioco
 				@Override
-		public void run() {
+		synchronized public void run() {
 			
 			double previous = System.nanoTime(); 
 			double delta = 0.0;
@@ -101,7 +102,7 @@ public class Screen extends Canvas implements Runnable{
 		/*
 		 *  inzializzazione della partita: creo gli oggetti ScreenItem che poi verranno aggiornati e disegnati.
 		 */
-		public void setLevel(int lv) {
+		synchronized public void setLevel(int lv) {
 			//this.scoreAdvisor = new ScoreAdvisor();
 			currentLevel = lv;
 			this.score = 0;
@@ -145,15 +146,24 @@ public class Screen extends Canvas implements Runnable{
 			}
 		}
 		
+		synchronized public void startTimeout( ) {
+			try {
+				wait(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			start = false;
+		}
 		/*
 		 *  Game cycle: update(), aggiorno il ciclo di gioco.
 		 *  Controllo le collisioni e gestisco cambiamenti nel model dovuto ad esse
 		 */
 		synchronized public void update() {
-			
+			if (start) startTimeout();
 		    objBall.move();
-		    gameOver = lifeAdvisor.checkLife(numberOfPlayers);
-		    gameStatus = advisor.checkBorderCollision(numberOfPlayers);
+		    gameOver = lifeAdvisor.checkLife();
+		    gameStatus = advisor.checkBorderCollision();
 		    
 		    paddlesPositionsX = game.getPaddlesPositionsX();
 		    paddlesPositionsY = game.getPaddlesPositionsY();
@@ -233,19 +243,6 @@ public class Screen extends Canvas implements Runnable{
 			drawer.draw(String.valueOf((Integer)score).toString(), 517, 60);
 			drawer.draw("LV", 505, 15);
 			drawer.draw(""+levels.getActualLevel(), 530, 15);
-			
-			
-			/*
-			if(endGame()) {
-				drawer.draw(objWin);
-				if (mainMusic.isMusicOn()) mainMusic.playMusic(MusicTypes.WIN);
-				gameStatus = false;
-				gameWin = true;
-				endGameWin();
-			}
-			if(!gameWin) endGameOver();
-			if(gameOver) drawer.draw(objLose);
-			*/
 			
 			g.dispose();
 			buffer.show();

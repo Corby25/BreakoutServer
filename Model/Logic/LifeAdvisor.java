@@ -23,8 +23,8 @@ public class LifeAdvisor {
 	
 	// false se è ancora in vita, true se ha perso
 	
-	public boolean checkLife(int numberOfPlayers) {
-		if(collision.checkGameOver(numberOfPlayers)) {
+	public boolean checkLife() {
+		if(collision.checkGameOver()) {
 			//if (loseLifeMusic.isMusicOn() && getLife() > 1) loseLifeMusic.playMusic(MusicTypes.LOSE_LIFE);
             life -= 1;
 			if(life < 1) return true;
