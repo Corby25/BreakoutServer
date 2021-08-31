@@ -1,26 +1,33 @@
 package Model.Items.PowerUp;
 
+import java.util.ArrayList;
+
 import Model.Items.Paddle;
 import Model.Items.ScreenItem;
 
 public class ShorterPaddle extends PowerUp {
 	
     private String path = "/Images/paddle.png";
+    private ArrayList<Paddle> paddles;
 	
-	public ShorterPaddle(ScreenItem screenItem) {
-		super.affectedScreenItem = screenItem;
+	public ShorterPaddle(ArrayList<Paddle> paddles) {
+		this.paddles = paddles;
 		duringTime = 20e9;
 	}
 
 	@Override
 	public void activate() {
-		((Paddle)affectedScreenItem).setImageWidth(affectedScreenItem.getImageWidth() - 30);
+		for (Paddle tempPaddle : paddles) {
+			tempPaddle.setImageWidth(tempPaddle.getImageWidth() - 30);
+		}
 		this.setActive(true);
 	}
 
 	@Override
 	public void disactivate() {
-		((Paddle)affectedScreenItem).setImageWidth(affectedScreenItem.getImageWidth() + 30);
+		for (Paddle tempPaddle : paddles) {
+			tempPaddle.setImageWidth(tempPaddle.getImageWidth() + 30);
+		}
 		this.setActive(false);
 	}
 

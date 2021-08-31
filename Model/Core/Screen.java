@@ -35,35 +35,24 @@ public class Screen extends Canvas implements Runnable{
 	private boolean gameWin = false;
 	private Ball objBall;
 	protected ArrayList<Brick> objBricks;
-	// -- private List<Brick> objBricks;
 	protected HashMap<PowerUp, ScreenItem> objPowerUp;
-	// ++ private boolean isXDirectionPositive = true;
-	// ++ private boolean isYDirectionPositive = false;
 	private ArrayList<Paddle> objPaddles;
-	// -- private List<Paddle> objPaddles;
 	private ScreenItem objSfondo, objHit, objBox, objSpeedUpLogo, objSwitchLogo, objLongerLogo, objShorterLogo, objWin, objLose;
 	protected ScreenItem[] objLife;
 	protected ScreenItem[] objOn;
-	// ++ private ArrayList<Integer> paddles;
-	// -- Clip win,hit;
 	boolean isMusicOn;
 	private Graphics g;
 	CollisionAdvisor advisor;
-	// -- CollisionAdvisor ball1;
 	private Levels levels;
 	private ArrayList<Player> players;
 	private LifeAdvisor lifeAdvisor;
-	private boolean victory = false; // ++
-	private boolean loss = false;  // ++
+	private boolean victory = false;
+	private boolean loss = false; 
 	private int score;
-	// ++ private Server server;
-	private ArrayList<Integer> paddlesPositionsX; // ++
-	private ArrayList<Integer> paddlesPositionsY; // ++
+	private ArrayList<Integer> paddlesPositionsX; 
+	private ArrayList<Integer> paddlesPositionsY; 
 	protected int lastScore, numberOfPlayers, currentLevel;
 	protected Drawer drawer;
-	private boolean start = true;
-	// -- private ScoreAdvisor scoreAdvisor;
-
 	
 	public Screen(BreakoutGame game) {
 		this.game = game;
@@ -103,7 +92,6 @@ public class Screen extends Canvas implements Runnable{
 		 *  inzializzazione della partita: creo gli oggetti ScreenItem che poi verranno aggiornati e disegnati.
 		 */
 		synchronized public void setLevel(int lv) {
-			//this.scoreAdvisor = new ScoreAdvisor();
 			currentLevel = lv;
 			this.score = 0;
 			
@@ -146,21 +134,11 @@ public class Screen extends Canvas implements Runnable{
 			}
 		}
 		
-		synchronized public void startTimeout( ) {
-			try {
-				wait(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			start = false;
-		}
 		/*
 		 *  Game cycle: update(), aggiorno il ciclo di gioco.
 		 *  Controllo le collisioni e gestisco cambiamenti nel model dovuto ad esse
 		 */
 		synchronized public void update() {
-			if (start) startTimeout();
 		    objBall.move();
 		    gameOver = lifeAdvisor.checkLife();
 		    gameStatus = advisor.checkBorderCollision();
@@ -266,6 +244,7 @@ public class Screen extends Canvas implements Runnable{
 			stringGameFullStatus.append(score+" "+(lifeAdvisor.getLife())+" ");
 			for(PowerUp powerUp : objPowerUp.keySet()) {
 				stringGameFullStatus.append(Boolean.toString(powerUp.isActive())+" ");
+				System.out.println(powerUp.isActive());
 			}
 			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
 			for (int i=0; i<players.size(); i++) {
@@ -299,13 +278,6 @@ public class Screen extends Canvas implements Runnable{
 				gameStatus=false;
 				victory = true;
 			}
-		}
-	
-		private void endGameOver() {
-			/*if (life == 0) {
-				gameStatus = false;
-				loss=true;
-			}*/
 		}
 		
 		public boolean isGameEnded() {
