@@ -2,9 +2,6 @@ package Model.Items;
 
 import java.awt.image.BufferedImage;
 
-import GUI.ImagesLoader;
-
-
 // classe astratta per metodi e varibili comuni fra gli oggetti
 public class ScreenItem implements Drawable {
 
@@ -15,7 +12,6 @@ public class ScreenItem implements Drawable {
     protected String path;
     
     public ScreenItem(String path, int width, int height, int[] position) {
-        this.image = ImagesLoader.getInstace().uploadImage(path);
         this.imageWidth = width;
         this.imageHeight = height;
         this.position = position;

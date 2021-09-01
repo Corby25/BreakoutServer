@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
-import GUI.menu.Graphics.GameFrame;
 import Model.Core.Screen;
 import Model.Logic.Player;
 
@@ -21,7 +20,6 @@ public class BreakoutGame {
 	
 	// controller tra la logica e la gui
 	
-	private GameFrame gameFrame; //creazione nuova finestra
 	private Screen screen; 
 	private ArrayList<Player> players; // definizione dei giocatori
 	private List<InetAddress> addresses;
@@ -43,7 +41,6 @@ public class BreakoutGame {
 		ports=new ArrayList<>();
 		localPorts=new ArrayList<>();
 		serverThreads=new ArrayList<>();
-		this.gameFrame = new GameFrame();
 		players = new ArrayList<Player>();
 		this.numberOfPlayers = numberOfPlayers;
 		//numberLevel =((int)(Math.random() * 3))+1;
@@ -69,12 +66,6 @@ public class BreakoutGame {
 				e.printStackTrace();
 			}
 		}			
-		gameFrame.add(screen);
-		gameFrame.requestFocusInWindow();
-
-		// aggiungo controllo da tastiera
-		gameFrame.pack();
-		gameFrame.setVisible(true);
 				
 		// avvio ciclo di gioco
 		new Thread(screen).start();

@@ -85,7 +85,6 @@ public class Screen extends Canvas implements Runnable{
 					   update();	
 					   delta -= ns;
 					}
-				render();
 			}
 		}
 		/*
@@ -177,59 +176,11 @@ public class Screen extends Canvas implements Runnable{
 			
 			if (objPaddles.size()>1) objPaddles.get(1).move(objBall.getXPosition(), objBall.getYPosition(),objBall.getImageWidth());// bot
 		}
-		
-		/*
-		 * Game cycle: render(), renderizzo gli screenItem.
-		 * Ogni screen item � definito drawable e, attraverso la classe drawer, viene disegnato su un oggetto Canvas.
-		 * Ogni oggetto per essere disegnato effettivamente utilizza la classe graphics con il quale bufferizzo tutte le coponenti di
-		 * un frame. Solo una volta composto il frame disegno. 
-		 */
-		synchronized public void render() {
-			
-			BufferStrategy buffer = this.getBufferStrategy();
-			if(buffer == null) {
-				this.createBufferStrategy(2);
-				return;	
-			}
-			g = buffer.getDrawGraphics();
-			
-			drawer.loadGraphics(g);
-			
-			drawer.draw(objSfondo);
-			drawer.draw(objBall);
-			drawer.draw(objBox);
-			drawer.draw(objHit);
-			drawer.draw(objSpeedUpLogo);
-			drawer.draw(objSwitchLogo);
-			drawer.draw(objLongerLogo);
-			drawer.draw(objShorterLogo);
-			
-			for(int i=0; i < lifeAdvisor.getLife(); i++) drawer.draw(objLife[i]);
-			
-			for(Paddle tempPaddle: objPaddles) drawer.draw(tempPaddle);
-			
-			for(Brick tempBrick: objBricks) {
-				if(!tempBrick.isDestroyed()) drawer.draw(tempBrick);	
-			}
-			
-			for(PowerUp powerUp: objPowerUp.keySet()) {
-				if(powerUp.isActive()) {
-					drawer.draw(objPowerUp.get(powerUp));
-				}
-			}
-			
-			drawer.draw(String.valueOf((Integer)score).toString(), 517, 60);
-			drawer.draw("LV", 505, 15);
-			drawer.draw(""+levels.getActualLevel(), 530, 15);
-			
-			g.dispose();
-			buffer.show();
-		}
 				
 		public String stringGameFullStatus() {
 			
 			StringBuilder stringGameFullStatus = new StringBuilder();
-
+			
 			for (Paddle tempPaddle : objPaddles) {
 				stringGameFullStatus.append(tempPaddle.getXPosition());
 				stringGameFullStatus.append(" ");
@@ -244,12 +195,12 @@ public class Screen extends Canvas implements Runnable{
 			stringGameFullStatus.append(score+" "+(lifeAdvisor.getLife())+" ");
 			for(PowerUp powerUp : objPowerUp.keySet()) {
 				stringGameFullStatus.append(Boolean.toString(powerUp.isActive())+" ");
-				System.out.println(powerUp.isActive());
 			}
 			stringGameFullStatus.append(Boolean.toString(victory)+" "+Boolean.toString(loss));
 			for (int i=0; i<players.size(); i++) {
 				stringGameFullStatus.append(" "+ players.get(i).toString());
 			}
+
 
 			return stringGameFullStatus.toString();
 		}

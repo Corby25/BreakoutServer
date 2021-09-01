@@ -1,6 +1,5 @@
 package Model.Items;
 
-import GUI.ImagesLoader;
 import Model.Items.PowerUp.PowerUp;
 
 public class BrickPowerUp extends Brick {
@@ -10,7 +9,6 @@ public class BrickPowerUp extends Brick {
 	public BrickPowerUp(int width, int height, int[] position, PowerUp powerUp) {
 		super(width, height, position);
 		this.powerUp = powerUp;
-		this.image = ImagesLoader.getInstace().uploadImage(powerUp.getPath());
 		hitLevel = 1;
 	}
 

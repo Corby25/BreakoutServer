@@ -1,6 +1,5 @@
 package Model.Items;
 
-import GUI.ImagesLoader;
 import Utility.Utilities;
 
 public class Ball extends ScreenItem{
@@ -10,7 +9,6 @@ public class Ball extends ScreenItem{
     private int speed;
     public Ball(int width, int height, int[] position) {
         super(width, height, position);
-        this.image = ImagesLoader.getInstace().uploadImage("/Images/ball.png");
         xDirection = 1;
         yDirection = -1;
         speed = (int) Utilities.DEFAULT_SPEED;    // costante di incremento velocit�

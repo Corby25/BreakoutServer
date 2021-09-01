@@ -2,9 +2,6 @@ package Model.Items;
 
 import java.awt.event.KeyEvent;
 
-import GUI.ImagesLoader;
-
-
 public class Paddle extends ScreenItem {
 	
 	// velocità paddle 
@@ -18,7 +15,6 @@ public class Paddle extends ScreenItem {
 
     public Paddle(int width, int height, int[] position) {
     	super(width, height, position);
-    	this.image = ImagesLoader.getInstace().uploadImage("/Images/paddle.png");
     	isSwitched = false;
     	switchConstant = 1;
     	leftLimit = 0;
